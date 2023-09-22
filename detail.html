@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vue API GET Request</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+</head>
+<body>
+  <div id="app">
+    <h1>Name: {{ title }}</h1>
+    <p>Name: {{ title }}</p>
+    <p>ID: {{ id }}</p>
+    <p>Content: {{ content }}</p>
+    <p>Created_at: {{ created_at }}</p>
+
+
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        name: '',
+        id: '',
+        email: '',
+        message: ''
+      },
+      mounted() {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        const name = params.get('name');
+        axios.get(`https://tom.rinuo.x10.mx/user?name=${name}&id=${id}`)
+          .then(response => {
+            this.message = 'API Response: ' + response.data; // 显示API的原始响应数据
+            this.title = response.data[0].title; // 假设返回的数据是一个数组，并且我们只关心第一条数据中的name属性
+            this.id = response.data[0].id; // 假设返回的数据是一个数组，并且我们只关心第一条数据中的id属性
+            this.created_at = response.data[0].created_at; // 假设返回的数据是一个数组，并且我们只关心第一条数据中的id属性
+            this.content = response.data[0].content; // 假设返回的数据是一个数组，并且我们只关心第一条数据中的id属性
+            this.console = response.data[0].content; // 假设返回的数据是一个数组，并且我们只关心第一条数据中的email属性
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
+    });
+  </script>
+</body>
+</html>
